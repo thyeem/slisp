@@ -1538,9 +1538,11 @@ reduce = \case
 
 -- | Generate a uniform random number smaller than the given real number
 random :: T Sexp Sexp
-random s@(_, x) = g'real s >>= get'rng >>= \t@(env, g) -> case x of
-  Int a -> put (randomR (0, a) g) t >>= modify (pure . Int . fst)
-  a     -> put (randomR (0, fst (toNum a)) g) t >>= modify (pure . Float . fst)
+random s@(_, x) = g'real s >>= get'rng >>= \t@(_, g) -> case x of
+  Int a -> put (randomR (0, a) g) t >>= \u@(env, r) ->
+    modify (pure . Int . fst) u >>= put' (env { env'r = snd r })
+  a -> put (randomR (0, fst (toNum a)) g) t >>= \u@(env, r) ->
+    modify (pure . Float . fst) u >>= put' (env { env'r = snd r })
 
 -- | Get random number generator from the given Env
 get'rng :: T a StdGen

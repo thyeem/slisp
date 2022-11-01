@@ -21,16 +21,14 @@ library
         base
       , bytestring
       , containers
-      , deepseq
       , directory
       , filepath
       , haskeline
-      , parallel
       , pretty-simple
       , random
-      , raw-strings-qq
       , text
       , vector
+      , s
     exposed-modules:
         SLisp
     default-language: Haskell2010
@@ -47,8 +45,9 @@ executable sl
       , filepath
       , haskeline
       , text
-      , slisp
       , vector
+      , slisp
+    default-language: Haskell2010
 
 test-suite test
     type:
@@ -66,7 +65,7 @@ test-suite test
       , hspec
       , hspec-discover
       , QuickCheck
-      , slisp
+      , s
     other-modules:
         LispSpec
     default-language: Haskell2010
