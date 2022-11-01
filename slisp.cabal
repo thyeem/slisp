@@ -3,7 +3,7 @@ name:               slisp
 version:            0.1.0.0
 
 synopsis:           LISP written in Haskell using the parser-S
-description:        The parser-S is a generalized parser combinator easy-to-read.
+description:        SLISP is a pure-functional LISP implementation to demonstrate the parser-S
                     .
 category:           Language, Lisp
 author:             Francis Lim
