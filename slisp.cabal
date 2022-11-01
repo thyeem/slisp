@@ -1,0 +1,72 @@
+cabal-version:      3.6
+name:               slisp
+version:            0.1.0.0
+
+synopsis:           LISP written in Haskell using the parser-S
+description:        The parser-S is a generalized parser combinator easy-to-read.
+                    .
+category:           Language, Lisp
+author:             Francis Lim
+maintainer:         thyeem@gmail.com
+license:            MIT
+license-file:       LICENSE
+build-type:         Simple
+
+extra-source-files: README.md
+
+library
+    hs-source-dirs:
+        src
+    build-depends:
+        base
+      , bytestring
+      , containers
+      , deepseq
+      , directory
+      , filepath
+      , haskeline
+      , parallel
+      , pretty-simple
+      , random
+      , raw-strings-qq
+      , text
+      , vector
+    exposed-modules:
+        SLisp
+    default-language: Haskell2010
+
+executable sl
+    hs-source-dirs:
+        app
+    main-is:
+        Main.hs
+    build-depends:
+        base
+      , containers
+      , directory
+      , filepath
+      , haskeline
+      , text
+      , slisp
+      , vector
+
+test-suite test
+    type:
+        exitcode-stdio-1.0
+    hs-source-dirs:
+        test
+    main-is:
+        Spec.hs
+    build-tool-depends:
+        hspec-discover:hspec-discover >=2.0 && <3.0
+    ghc-options:
+        -threaded
+    build-depends:
+        base
+      , hspec
+      , hspec-discover
+      , QuickCheck
+      , slisp
+    other-modules:
+        LispSpec
+    default-language: Haskell2010
