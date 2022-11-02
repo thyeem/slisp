@@ -12,7 +12,24 @@ I hope a little more than 1k lines of this code is one of the simplest and the m
   - Code-flow _explicitly follows_ the state transition.
   - Compatible with a few hundreds of CLisp's main built-in functions (on process)
 
+## Demo
+<img src="demo.gif" width="540" />
 
+## REPL
+```lisp
+;; one semicolon -> paste-mode (multi-line input)
+SLISP> ;
+
+;; two semicolon -> debug-mode (describe S-expression with hierarchical structure)
+SLISP> ;;
+
+;; three semicolon -> view the REPL environment (symbol-data map)
+SLISP> ;;;
+
+;; four semicolon -> list all built-in functions
+SLISP> ;;;;
+
+```
 ## Build
 ```bash
 # Assume the Haskell GHC and cabal is installed

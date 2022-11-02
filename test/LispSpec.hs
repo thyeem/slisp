@@ -1,7 +1,7 @@
 module LispSpec where
 
+import           SLisp
 import           Test.Hspec
-import           Text.S.Example.Lisp
 
 spec :: Spec
 spec = do
