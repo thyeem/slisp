@@ -67,5 +67,5 @@ test-suite test
       , QuickCheck
       , slisp
     other-modules:
-        LispSpec
+        SLispSpec
     default-language: Haskell2010

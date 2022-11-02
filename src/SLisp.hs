@@ -178,7 +178,7 @@ set'genv k s@(env@Env {..}, x) = put' (env { env'g = M.insert k x env'g }) s
 set'lenv :: String -> T Sexp Sexp
 set'lenv k s@(env@Env {..}, x) = put' (env { env'l = M.insert k x env'l }) s
 
--- | Insert a symbol-value key and a S-exp to the fn-env
+-- | Insert a symbol key and its paired function to the fn-env
 set'fenv :: String -> T Fn Fn
 set'fenv k s@(env@Env {..}, x) = put' (env { env'f = M.insert k x env'f }) s
 
@@ -255,7 +255,7 @@ local s@(env@Env {..}, _) =
 -- | When getting out from local-scope
 global :: ST b -> T a a
 global (g@Env{}, _) s@(l@Env{}, _) =
-  put' (g { env'r = env'r l, env'g = env'g l }) s
+  put' (g { env'r = env'r l, env'g = env'g l, env'f = env'f l }) s
 
 -- | Deactivate local env and use only global env
 xlocal :: T a a
@@ -1020,7 +1020,26 @@ f'push = undefined
 
 -- | defun
 f'defun :: Fn
-f'defun = undefined
+f'defun s = g'nary s >>= get >>= \case
+  a@(Symbol k) : List args : body ->
+    put args s
+      >>= mapM' g'symbol
+      >>= put
+            (\t -> g'nary t >>= get >>= \case
+              xs
+                | length xs /= length args
+                -> err [errEval, errWrongNargs, shows' xs]
+                | otherwise
+                -> put ([ List [a, b] | a <- args | b <- xs ]) t
+                  >>= local
+                  >>= bind'par
+                  >>= put body
+                  >>= eval'body
+                  >>= global t
+            )
+      >>= set'fenv k
+      >>= put a
+  a -> err [errEval, errMalformed, shows' a]
 
 -- | lambda
 f'lambda :: Fn
@@ -1031,7 +1050,7 @@ f'lambda s = g'nary s >>= get >>= \case
       (\t -> g'nary t >>= get >>= \case
         xs
           | length xs /= length args
-          -> err [errEval, errWrongNargs, show' (List xs)]
+          -> err [errEval, errWrongNargs, shows' xs]
           | otherwise
           -> put ([ List [a, b] | a <- args | b <- xs ]) t
             >>= local
@@ -1041,7 +1060,7 @@ f'lambda s = g'nary s >>= get >>= \case
             >>= global t
       )
     )
-  _ -> err [errEval, errMalformed, "lambda"]
+  a -> err [errEval, errMalformed, shows' a]
 
 -- | progn
 f'progn :: Fn
@@ -2099,7 +2118,11 @@ built'in =
 print' :: MonadIO m => Sexp -> InputT m ()
 print' = outputStrLn . show'
 
--- | Stringify S-expression
+-- | Stringify a list of S-exp
+shows' :: [Sexp] -> String
+shows' = unwords . (show' <$>)
+
+-- | Stringify S-exp
 show' :: Sexp -> String
 show' = \case
   NIL          -> "nil"

@@ -1,4 +1,4 @@
-module LispSpec where
+module SLispSpec where
 
 import           SLisp
 import           Test.Hspec
