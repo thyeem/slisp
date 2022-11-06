@@ -84,5 +84,10 @@ in'out =
   , ("(let ((x 3)) (when (oddp x) 'odd))"  , "odd")
   , ("(let ((x 3)) (unless (oddp x) 'odd))", "nil")
   , ("(let ((x 3)) (if (oddp (+ x x)) 'odd 'even))", "even")
-  -- , (""                          , "")
+  , ("(funcall '+ 2/3 4/5 6/7 8/9 (* 12/23 123/321))", "2645512/775215")
+  , ("(progn (defun maria (x y) (/ x y)) (maria 1111 2222))", "1/2")
+  , ( "(progn (setq sofia (lambda (x y) (* x y))) (apply sofia 14 11 nil))"
+    , "154"
+    )
+  , ("((lambda (x y) (abs (/ (* #c(3 -3) x) y))) 2 #c(2 -2))", "3.0")
   ]
