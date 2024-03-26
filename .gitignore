@@ -24,9 +24,6 @@ dist/
 newdist/
 *.hi
 *.o
-cabal.project.local
-stack.yaml
-stack.yaml.lock
 .hspec-failures
 
 # python

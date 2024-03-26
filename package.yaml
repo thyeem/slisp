@@ -1,0 +1,72 @@
+name: slisp
+version: 0.1.0
+github: thyeem/slisp
+license: MIT
+author: Francis Lim
+maintainer: thyeem@gmail.com
+copyright: 2022-2024 Francis
+synopsis: LISP written in Haskell using the parser-S
+category: Language, Lisp
+description: |
+  sLISP is a pure-functional LISP implementation to demonstrate parser 's'
+  .
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+dependencies:
+- base
+- bytestring
+- containers
+- directory
+- filepath
+- haskeline
+- pretty-simple
+- random
+- text
+- vector
+- s
+
+ghc-options:
+- -Wall
+- -Wno-name-shadowing
+- -Wno-orphans
+- -fno-warn-incomplete-uni-patterns
+
+library:
+  source-dirs: src
+
+executables:
+  sl:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -O2
+    - -g0
+    - -fexpose-all-unfoldings
+    - -dynamic
+    dependencies:
+    - base
+    - containers
+    - directory
+    - filepath
+    - haskeline
+    - text
+    - vector
+    - slisp
+    when:
+    - condition: false
+      other-modules: Paths_slisp
+
+tests:
+  test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    dependencies:
+    - base
+    - hspec
+    - QuickCheck
+    - slisp

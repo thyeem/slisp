@@ -1,0 +1,8 @@
+resolver: lts-20.26
+
+packages:
+- .
+
+extra-deps:
+  - git: https://github.com/thyeem/s.git
+    commit: 'eb045df1a4eaf276ff9b3c21c0a653dc306e387d'
